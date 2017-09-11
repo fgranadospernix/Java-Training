@@ -12,17 +12,19 @@ public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	Sprite spaceshipSprite;
+	AnimatedSprite spaceshipAnimated;
 
 	@Override
 	public void create () {
 		//Texture.setEnforcePotImages(false);
 		batch = new SpriteBatch();
 		img = new Texture("Space-Background.png");
-	    Texture spaceshipTexture = new Texture("SpaceShip1.png");
+	   // Texture spaceshipTexture = new Texture("SpaceShip1.png"); animacion de imagen 1
+		Texture spaceshipTexture = new Texture("SpaceShip2.png");
         spaceshipSprite = new Sprite(spaceshipTexture);
 	    spaceshipSprite.setPosition(650/2, 0);
-	
-	
+	    spaceshipAnimated = new AnimatedSprite(spaceshipSprite);
+	    
 	}
 	
 
@@ -32,8 +34,30 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		batch.draw(img, 0, 0);
-	    spaceshipSprite.draw(batch);
+	   // spaceshipSprite.draw(batch); Anima la imagen1
+		spaceshipAnimated.draw(batch);
 		batch.end();
+		
+		//Animacion en eje X y Y sand Gdx.input.isToched
+		handleInput();
+		spaceshipAnimated.move();
+	}
+
+
+	private void handleInput() {
+		if(Gdx.input.isTouched()) //Indica qe si se toca la pnatalla o una tecla a la derecha o izq
+		{
+			int xTouch = Gdx.input.getX();
+			
+			if (xTouch > spaceshipAnimated.getX())
+			{
+			spaceshipAnimated.moveRight();
+			}
+			else
+			{
+			spaceshipAnimated.moveLefth();	
+			}
+		}
 	}
 	
 	@Override
